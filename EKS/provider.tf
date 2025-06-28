@@ -4,6 +4,7 @@ terraform {
       region = "us-east-1"
       key = "terraform.tfstate"
       dynamodb_table = "terraform-eks-state-locks"
+      encrypt = true
     }
   required_providers {
     aws = {
