@@ -1,6 +1,6 @@
 terraform {
     backend "s3" {
-      bucket = "bucket-for-terraform-state-file-saad248"
+      bucket = "terraform-state-file-bucket-saad248"
       region = "us-east-1"
       key = "terraform.tfstate"
       dynamodb_table = "terraform-eks-state-locks"
@@ -19,4 +19,5 @@ provider "aws" {
   access_key = "${var.AWS_ACCESS_KEY}"
   secret_key = "${var.AWS_SECRET_KEY}"
 }
+
 
