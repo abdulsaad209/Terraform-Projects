@@ -17,3 +17,7 @@ module "eks" {
   subnet_ids      = module.vpc.private_subnet_ids
   node_groups     = var.node_groups
 }
+
+# After creating cluster run below command: remember aws cli should be installed and configured
+# aws eks update-kubeconfig --region <region-name> --name <cluster-name>
+
