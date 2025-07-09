@@ -1,3 +1,4 @@
+# Create iam role for eks cluster
 resource "aws_iam_role" "cluster" {
   name = "${var.cluster_name}-cluster-role"
 
@@ -13,11 +14,14 @@ resource "aws_iam_role" "cluster" {
   })
 }
 
+# Attach the AmazonEKSClusterPolicy to the cluster role
 resource "aws_iam_role_policy_attachment" "cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster.name
 }
 
+# Create the EKS cluster
+# This module creates an EKS cluster with the specified name and version
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
   version  = var.cluster_version
@@ -32,6 +36,8 @@ resource "aws_eks_cluster" "main" {
   ]
 }
 
+# Create iam role for eks node group
+# This role allows the EKS nodes to interact with AWS services
 resource "aws_iam_role" "node" {
   name = "${var.cluster_name}-node-role"
 
@@ -47,6 +53,8 @@ resource "aws_iam_role" "node" {
   })
 }
 
+# Attach the necessary policies to the node role
+# These policies allow the EKS nodes to perform necessary actions
 resource "aws_iam_role_policy_attachment" "node_policy" {
   for_each = toset([
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
@@ -58,6 +66,8 @@ resource "aws_iam_role_policy_attachment" "node_policy" {
   role       = aws_iam_role.node.name
 }
 
+# Create the EKS node group
+# This module creates a node group for the EKS cluster with the specified configuration
 resource "aws_eks_node_group" "main" {
   for_each = var.node_groups
 

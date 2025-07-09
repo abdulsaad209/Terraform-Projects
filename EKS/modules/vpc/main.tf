@@ -49,6 +49,7 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+# Create Elastic IPs for NAT Gateway
 resource "aws_eip" "nat" {
   count = length(var.public_subnet_cidrs)
   domain = "vpc"
@@ -58,7 +59,8 @@ resource "aws_eip" "nat" {
   }
 }
 
-# Create NAT gateway for public traffic for private subnet instances
+# Create NAT gateway for each public subnet
+# This allows private subnets to access the internet for updates, etc.
 resource "aws_nat_gateway" "main" {
   count         = length(var.public_subnet_cidrs)
   allocation_id = aws_eip.nat[count.index].id
@@ -69,7 +71,8 @@ resource "aws_nat_gateway" "main" {
   }
 }
 
-# Create route tables to forward traffic from internet gateway to private subnet
+# Create route table for public subnets
+# This allows public subnets to route traffic to the internet gateway
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -83,7 +86,8 @@ resource "aws_route_table" "public" {
   }
 }
 
-# Create private route table to forward traffic to NAT gateway
+# Create private route tables
+# This allows private subnets to route traffic through the NAT gateway
 resource "aws_route_table" "private" {
   count  = length(var.private_subnet_cidrs)
   vpc_id = aws_vpc.main.id
@@ -98,6 +102,9 @@ resource "aws_route_table" "private" {
   }
 }
 
+# Associate route tables with subnets
+# This associates the private subnets with private route tables
+# and the public subnets with the public route table
 resource "aws_route_table_association" "private" {
   count          = length(var.private_subnet_cidrs)
   subnet_id      = aws_subnet.private[count.index].id
