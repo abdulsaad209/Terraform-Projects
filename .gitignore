@@ -11,3 +11,6 @@ crash.log
 
 # Terraform lock files (optional)
 .terraform.lock.hcl
+
+tf_key 
+tf_key.pub
