@@ -80,5 +80,5 @@ variable "portfolio-instance-type" {
 variable "portfolio_instance_count" {
   description = "Number of portfolio instances to create"
   type        = number
-  default     = 1
+  default     = 2
 }
