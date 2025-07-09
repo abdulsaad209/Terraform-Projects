@@ -8,14 +8,6 @@ variable "ubuntu-ami" {
     type = string
 }
 
-variable "windows-ami" {
-  default = "ami-08ded310ca86fa861"
-}
-
-variable "ubuntu-instance-type" {
-  type = string
-}
-
 variable "ubuntu-key-name" {
   type = string
 }
@@ -24,21 +16,13 @@ variable "aws-region" {
   type = string
 }
 
-variable "ports" {
-  description = "Map of ports to allowed CIDRs"
-  type = map(list(string))
-  default = {
-    10050  = ["10.99.5.204/32"]
-    33322  = ["10.0.0.0/16"]
-  }
-}
-
 variable "portfolio_instance_count" {
   type    = number
   default = 1
   
 }
 
+# Security Group Variables
 variable "name" {
   description = "Security group name"
   type        = string
