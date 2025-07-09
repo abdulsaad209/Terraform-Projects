@@ -11,4 +11,3 @@ crash.log
 
 # Terraform lock files (optional)
 .terraform.lock.hcl
-
