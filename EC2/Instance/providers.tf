@@ -1,9 +1,9 @@
 terraform {
     backend "s3" {
-      bucket = "terraform-statefile-szcoders"
+      bucket = "terraform-state-file-bucket-saad248"
       region = "us-east-1"
       key = "terraform.tfstate"
-      dynamodb_table = "terraform-state-szcoders"
+      dynamodb_table = "terraform-eks-state-locks"
     }
   required_providers {
     aws = {
