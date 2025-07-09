@@ -12,7 +12,12 @@ output "key-name" {
   value = aws_key_pair.tf_key.key_name
 }
 
-output "security_group_id" {
-  value = aws_security_group.allow_tls.id
+output "portfolio_sg_id" {
+  description = "ID of the portfolio security group"
+  value       = module.portfolio_sg.security_group_id
 }
 
+output "portfolio_sg_arn" {
+  description = "ARN of the portfolio security group"
+  value       = module.portfolio_sg.security_group_arn
+}
