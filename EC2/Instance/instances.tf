@@ -16,15 +16,15 @@ module "portfolio_sg" {
   tags           = var.tags
 }
 
-resource "aws_instance" "portfolio" {
-  ami                    = var.ubuntu-ami
-  instance_type          = var.ubuntu-instance-type
-  key_name               = var.ubuntu-key-name
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  tags = {
-    Name = "portfolio-instance-${count.index + 1}"
-  }
-  count = var.portfolio_instance_count
-  depends_on = [aws_key_pair.tf_key, aws_security_group.allow_tls]
-}
+#resource "aws_instance" "portfolio" {
+#  ami                    = var.ubuntu-ami
+#  instance_type          = var.ubuntu-instance-type
+#  key_name               = var.ubuntu-key-name
+#  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+#  tags = {
+#    Name = "portfolio-instance-${count.index + 1}"
+#  }
+#  count = var.portfolio_instance_count
+#  depends_on = [aws_key_pair.tf_key, aws_security_group.allow_tls]
+#}
 
