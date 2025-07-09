@@ -5,7 +5,7 @@ resource "aws_key_pair" "tf_key" {
 }
 
 # Create a VPC
-module "vpc" {
+module "portfolio_vpc" {
   source = "modules/vpc"
 
   vpc_cidr             = var.vpc_cidr
@@ -27,15 +27,34 @@ module "portfolio_sg" {
   tags           = var.tags
 }
 
+# Define local block 
+locals {
+  instance_configs = {
+    "public_instance" = {
+      subnet_id = module.vpc.public_subnet_ids[0]
+    }
+    "private_instance_1" = {
+      subnet_id = module.vpc.private_subnet_ids[0]
+    }
+    "private_instance_2" = {
+      subnet_id = module.vpc.private_subnet_ids[1]
+    }
+  }
+}
+
+# Create EC2 instances
 resource "aws_instance" "portfolio" {
- ami                    = var.ubuntu-ami
- instance_type          = var.portfolio-instance-type
- key_name               = var.portfolio-key-name
- vpc_security_group_ids = [module.portfolio_sg.security_group_id]
- tags = {
-   Name = "portfolio-instance-${count.index + 1}"
- }
- count = var.portfolio_instance_count
- depends_on = [aws_key_pair.tf_key, module.portfolio_sg.security_group_id]
+  for_each                = local.instance_configs
+  ami                     = var.ubuntu-ami
+  instance_type           = var.portfolio-instance-type
+  key_name                = var.portfolio-key-name
+  vpc_security_group_ids  = [module.portfolio_sg.security_group_id]
+  subnet_id               = each.value.subnet_id
+
+  tags = {
+    Name = "portfolio-${each.key}"
+  }
+
+  depends_on = [aws_key_pair.tf_key, module.portfolio_sg]
 }
 
