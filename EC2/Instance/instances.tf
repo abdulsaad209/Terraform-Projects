@@ -21,7 +21,7 @@ module "portfolio_sg" {
 
   name           = var.name
   description    = var.description
-  vpc_id         = module.vpc.vpc_id
+  vpc_id         = module.portfolio_vpc.vpc_id
   ingress_rules  = var.ingress_rules
   egress_rules   = var.egress_rules
   tags           = var.tags
@@ -31,13 +31,13 @@ module "portfolio_sg" {
 locals {
   instance_configs = {
     "public_instance" = {
-      subnet_id = module.vpc.public_subnet_ids[0]
+      subnet_id = module.portfolio_vpc.public_subnet_ids[0]
     }
     "private_instance_1" = {
-      subnet_id = module.vpc.private_subnet_ids[0]
+      subnet_id = module.portfolio_vpc.private_subnet_ids[0]
     }
     "private_instance_2" = {
-      subnet_id = module.vpc.private_subnet_ids[1]
+      subnet_id = module.portfolio_vpc.private_subnet_ids[1]
     }
   }
 }
