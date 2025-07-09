@@ -5,7 +5,7 @@ resource "aws_key_pair" "tf_key" {
 }
 
 # Create a VPC
-module "vpc" {
+module "portfolio_vpc" {
   source = "./modules/vpc"
 
   vpc_cidr             = var.vpc_cidr
