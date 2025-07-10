@@ -135,3 +135,26 @@ variable "rds_tags" {
     Name = "rds-security-group"
   }
 }
+
+variable "rds_instance_type" {
+  description = "Instance type for the RDS instance"
+  type        = string
+  default     = "db.t2.micro"
+}
+
+variable "rds_allocated_storage" {
+  description = "Allocated storage for the RDS instance in GB"
+  type        = number
+  default     = 20
+}
+
+variable "rds_username" {
+  description = "Username for the RDS instance"
+  type        = string
+  default     = "admin"
+}
+
+variable "rds_password" {
+  description = "Password for the RDS instance"
+  type        = string
+}
