@@ -114,3 +114,42 @@ variable "portfolio_instance_count" {
   type        = number
   default     = 2
 }
+
+variable "rds_sg_name" {
+  description = "Name of the RDS security group"
+  type        = string
+  default     = "rds-security-group"
+  
+}
+variable "rds_sg_description" {
+  description = "Description of the RDS security group"
+  type        = string
+  default     = "Security group for RDS instances"
+}
+
+variable "rds_ingress_rules" {
+  description = "Map of ingress rules for the RDS security group"
+  type = map(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+    description = string
+  }))
+  default = {
+    "mysql" = {
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      security_groups = [module.portfolio_sg.security_group_id]
+    }
+  }
+}
+
+variable "rds_tags" {
+  description = "Tags for the RDS security group"
+  type        = map(string)
+  default     = {
+    Name = "rds-security-group"
+  }
+}
