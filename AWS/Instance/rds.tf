@@ -34,7 +34,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 # Create RDS Parameter Group
 resource "aws_db_parameter_group" "rds_parameter_group" {
   name        = "${var.app_name}-rds-parameter-group"
-  family      = "mariaDB11.4.5"
+  family      = "mariadb11"
   description = "RDS parameter group for MariaDB"
 
   tags = {
