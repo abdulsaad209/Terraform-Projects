@@ -43,7 +43,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
 }
 
 # Create RDS Instance
-resource "aws_db_instance" "rds_instance" {
+resource "aws_db_instance" "portfolio-db" {
   identifier              = "${var.app_name}-rds-instance"
   engine                  = "mariadb"
   engine_version          = "11.4.5"
