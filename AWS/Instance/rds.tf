@@ -46,7 +46,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
 resource "aws_db_instance" "portfolio-db" {
   identifier              = "${var.app_name}-rds-instance"
   engine                  = "mariadb"
-  engine_version          = "10.11"
+  engine_version          = "10.11.11"
   instance_class          = var.rds_instance_type
   allocated_storage       = var.rds_allocated_storage
   storage_type            = "gp2"

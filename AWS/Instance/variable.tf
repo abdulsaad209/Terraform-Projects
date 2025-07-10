@@ -139,7 +139,7 @@ variable "rds_tags" {
 variable "rds_instance_type" {
   description = "Instance type for the RDS instance"
   type        = string
-  default     = "db.t2.micro"
+  default     = "db.t3.micro"
 }
 
 variable "rds_allocated_storage" {
