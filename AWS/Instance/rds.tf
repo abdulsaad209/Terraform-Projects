@@ -34,7 +34,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 # Create RDS Parameter Group
 resource "aws_db_parameter_group" "rds_parameter_group" {
   name        = "${var.app_name}-rds-parameter-group"
-  family      = "mariadb11"
+  family      = "mariadb10.11"
   description = "RDS parameter group for MariaDB"
 
   tags = {
@@ -46,7 +46,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
 resource "aws_db_instance" "portfolio-db" {
   identifier              = "${var.app_name}-rds-instance"
   engine                  = "mariadb"
-  engine_version          = "11.4.5"
+  engine_version          = "10.11"
   instance_class          = var.rds_instance_type
   allocated_storage       = var.rds_allocated_storage
   storage_type            = "gp2"
