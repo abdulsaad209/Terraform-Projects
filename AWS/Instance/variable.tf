@@ -128,16 +128,6 @@ variable "rds_sg_description" {
   default     = "Security group for RDS instances"
 }
 
-variable "rds_ingress_rules" {
-  description = "Map of ingress rules for the security group"
-  type = map(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
-    description = string
-  }))
-}
 
 variable "rds_tags" {
   description = "Tags for the RDS security group"
