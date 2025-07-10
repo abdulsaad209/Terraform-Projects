@@ -24,7 +24,7 @@ resource "aws_security_group_rule" "rds_ingress_from_app" {
 # Create RDS Subnet Group
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "${var.app_name}-rds-subnet-group"
-  subnet_ids = [for subnet in module.portfolio_vpc.private_subnets : subnet.id]
+  subnet_ids = module.portfolio_vpc.private_subnet_ids
 
   tags = {
       Name = "${var.app_name}-rds-subnet-group"
