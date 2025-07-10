@@ -2,12 +2,12 @@
 module "rds_sg" {
   source = "./modules/security-group"
 
-  name           = var.name
-  description    = var.description
+  name           = var.rds_sg_name
+  description    = var.rds_sg_description
   vpc_id         = module.portfolio_vpc.vpc_id
   ingress_rules  = {}
   egress_rules   = var.egress_rules
-  tags           = var.tags
+  tags           = var.rds_tags
 }
 
 resource "aws_security_group_rule" "rds_ingress_from_app" {
