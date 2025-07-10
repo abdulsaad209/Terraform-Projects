@@ -22,14 +22,9 @@ output "portfolio_sg_arn" {
   value       = module.portfolio_sg.security_group_arn
 }
 
-output "rds" {
+output "portfolio_sg_ingress_rules" {
   description = "RDS instance details"
   value = {
-    db_instance_identifier = aws_db_instance.portfolio-db.id
-    db_instance_class      = aws_db_instance.portfolio-db.instance_class
-    db_engine              = aws_db_instance.portfolio-db.engine
-    db_endpoint            = aws_db_instance.portfolio-db.endpoint
-    db_port                = aws_db_instance.portfolio-db.port
-    db_username            = aws_db_instance.portfolio-db.username
+    db_endpoint = aws_db_instance.portfolio-db.endpoint
   }
 }
