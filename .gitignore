@@ -15,3 +15,25 @@ crash.log
 tf_key 
 tf_key.pub
 README.md
+
+# Local .terraform directories need to ignore
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+
+.terraformrc
+terraform.rc
+
+*.pyc
