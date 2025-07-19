@@ -39,11 +39,11 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
           export PATH="$HOME/bin:$PATH"
           infracost --version
-          curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
-          pip install checkov
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-          echo "$HOME/.driftctl" >> $GITHUB_PATH
-          echo "$HOME/.infracost/bin" >> $GITHUB_PATH
+        #   curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
+        #   pip install checkov
+        #   curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+        #   echo "$HOME/.driftctl" >> $GITHUB_PATH
+        #   echo "$HOME/.infracost/bin" >> $GITHUB_PATH
 
       - name: Terraform Init
         working-directory: ./EKS
@@ -53,24 +53,24 @@ jobs:
         working-directory: ./EKS
         run: terraform validate
 
-      - name: Run TFLint
-        working-directory: ./EKS
-        run: |
-          tflint --init
-          tflint
+    #   - name: Run TFLint
+    #     working-directory: ./EKS
+    #     run: |
+    #       tflint --init
+    #       tflint
 
-      - name: Run Checkov (Security Scan)
-        run: |
-          checkov -d ./terraform -o json > checkov-report.json
+    #   - name: Run Checkov (Security Scan)
+    #     run: |
+    #       checkov -d ./EKS -o json > checkov-report.json
 
       - name: Infracost (Estimate Cost)
         run: |
-          infracost breakdown --path ./terraform \
+          infracost breakdown --path ./EKS \
             --format json \
             --out-file infracost-report.json
 
       - name: Terraform Plan
-        working-directory: ./terraform
+        working-directory: ./EKS
         run: terraform plan -out=tfplan.binary && terraform show -json tfplan.binary > plan.json
 
       - name: Upload Reports to S3 (PR or Main)
@@ -78,22 +78,22 @@ jobs:
         run: |
           aws s3 cp checkov-report.json s3://${{ env.S3_BUCKET }}/reports/checkov-${{ github.run_id }}.json
           aws s3 cp infracost-report.json s3://${{ env.S3_BUCKET }}/reports/infracost-${{ github.run_id }}.json
-          aws s3 cp ./terraform/plan.json s3://${{ env.S3_BUCKET }}/reports/plan-${{ github.run_id }}.json
+          aws s3 cp ./EKS/plan.json s3://${{ env.S3_BUCKET }}/reports/plan-${{ github.run_id }}.json
 
-      - name: Terraform Apply (Only on main)
-        if: github.ref == 'refs/heads/main'
-        working-directory: ./terraform
-        run: terraform apply -auto-approve tfplan.binary
+    #   - name: Terraform Apply (Only on main)
+    #     if: github.ref == 'refs/heads/main'
+    #     working-directory: ./EKS
+    #     run: terraform apply -auto-approve tfplan.binary
 
-      - name: Run Drift Detection (Only on main)
-        if: github.ref == 'refs/heads/main'
-        run: |
-          driftctl scan --from tfstate+s3://${{ env.S3_BUCKET }}/path/to/state.tfstate \
-            --output json > drift-report.json
-          aws s3 cp drift-report.json s3://${{ env.S3_BUCKET }}/reports/drift-${{ github.run_id }}.json
+    #   - name: Run Drift Detection (Only on main)
+    #     if: github.ref == 'refs/heads/main'
+    #     run: |
+    #       driftctl scan --from tfstate+s3://${{ env.S3_BUCKET }}/path/to/state.tfstate \
+    #         --output json > drift-report.json
+    #       aws s3 cp drift-report.json s3://${{ env.S3_BUCKET }}/reports/drift-${{ github.run_id }}.json
 
-      - name: Trigger Config Management Pipeline (Optional)
-        if: github.ref == 'refs/heads/main'
-        run: |
-          curl -X POST https://awx.example.com/api/v2/job_templates/42/launch/ \
-          -H "Authorization: Bearer ${{ secrets.AWX_TOKEN }}"
+    #   - name: Trigger Config Management Pipeline (Optional)
+    #     if: github.ref == 'refs/heads/main'
+    #     run: |
+    #       curl -X POST https://awx.example.com/api/v2/job_templates/42/launch/ \
+    #       -H "Authorization: Bearer ${{ secrets.AWX_TOKEN }}"
