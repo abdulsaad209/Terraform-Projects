@@ -36,7 +36,7 @@ jobs:
 
       - name: Install TFLint, Checkov, Infracost, DriftCTL
         run: |
-          curl -sSfL https://infracost.io/install.sh | sh
+          curl -sSfL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
           curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
           pip install checkov
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
