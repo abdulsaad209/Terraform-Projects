@@ -7,7 +7,10 @@ on:
   pull_request:
     branches:
       - master  # Validate before merge
-
+env:
+    AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-region: us-east-1
 jobs:
   terraform:
     name: Terraform Infrastructure Pipeline
