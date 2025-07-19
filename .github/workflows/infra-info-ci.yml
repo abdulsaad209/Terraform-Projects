@@ -26,8 +26,9 @@ jobs:
 
       - name: Install Tools
         run: |
-          curl -sL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-          pip install checkov infracost
+          curl -sSfL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+          export PATH="$HOME/bin:$PATH"
+          infracost --version
           curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
 
       - name: Terraform Init
