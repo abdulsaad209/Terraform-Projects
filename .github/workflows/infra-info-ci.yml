@@ -37,11 +37,13 @@ jobs:
       - name: Install TFLint, Checkov, Infracost, DriftCTL
         run: |
           curl -sSfL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-          curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
-          pip install checkov
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-          echo "$HOME/.driftctl" >> $GITHUB_PATH
-          echo "$HOME/.infracost/bin" >> $GITHUB_PATH
+          export PATH="$HOME/bin:$PATH"
+          infracost --version
+        #   curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
+        #   pip install checkov
+        #   curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+        #   echo "$HOME/.driftctl" >> $GITHUB_PATH
+        #   echo "$HOME/.infracost/bin" >> $GITHUB_PATH
 
       - name: Terraform Init
         working-directory: ./terraform
