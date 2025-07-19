@@ -24,12 +24,15 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Install Tools
+      - name: Install Infracost and DriftCTL
         run: |
-          curl -sSfL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-          export PATH="$HOME/bin:$PATH"
-          infracost --version
-          curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
+            curl -sSfL https://infracost.io/install.sh | sh
+            export PATH="$HOME/.infracost/bin:$PATH"
+            infracost --version
+
+            curl -sL https://raw.githubusercontent.com/cloudskiff/driftctl/release/latest/install.sh | bash
+            export PATH="$HOME/.driftctl:$PATH"
+
 
       - name: Terraform Init
         run: terraform init
