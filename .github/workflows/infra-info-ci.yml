@@ -64,6 +64,8 @@ jobs:
     #       checkov -d ./EKS -o json > checkov-report.json
 
       - name: Infracost (Estimate Cost)
+        env:
+          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
         run: |
           infracost breakdown --path ./EKS \
             --format json \
